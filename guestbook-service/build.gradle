@@ -11,6 +11,7 @@ dependencies {
 	compileOnly group: "org.osgi", name: "org.osgi.annotation.versioning"
 	compileOnly group: "org.osgi", name: "org.osgi.core"
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: "commons-lang", name: "commons-lang"
 	compileOnly project(":modules:guestbook:guestbook-api")
 }
 

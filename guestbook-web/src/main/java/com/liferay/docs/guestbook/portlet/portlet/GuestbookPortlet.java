@@ -56,6 +56,7 @@ public class GuestbookPortlet extends MVCPortlet {
 			ServiceContext serviceContext = ServiceContextFactory.getInstance(
 					GuestbookEntry.class.getName(), request);
 			
+			String id = ParamUtil.getString(request, "surrogatedId");
 			String userName = ParamUtil.getString(request, "name");
 			String email = ParamUtil.getString(request, "email");
 			String message = ParamUtil.getString(request, "message");
@@ -86,7 +87,7 @@ public class GuestbookPortlet extends MVCPortlet {
 			
 			try {
 				_guestbookEntryLocalService.addGuestbookEntry(
-						serviceContext.getUserId(), guestbookId, userName, email,
+						id, serviceContext.getUserId(), guestbookId, userName, email,
 						message, serviceContext);
 				
 				response.setRenderParameter(

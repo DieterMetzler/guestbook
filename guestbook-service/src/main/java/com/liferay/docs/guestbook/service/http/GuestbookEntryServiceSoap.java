@@ -104,6 +104,60 @@ public class GuestbookEntryServiceSoap {
 		}
 	}
 
+	public static com.liferay.docs.guestbook.model.GuestbookEntrySoap
+			deleteGuestbookEntry(long entryId)
+		throws RemoteException {
+
+		try {
+			com.liferay.docs.guestbook.model.GuestbookEntry returnValue =
+				GuestbookEntryServiceUtil.deleteGuestbookEntry(entryId);
+
+			return com.liferay.docs.guestbook.model.GuestbookEntrySoap.
+				toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestbookEntrySoap
+			deleteGuestbookEntry(String surrogateId)
+		throws RemoteException {
+
+		try {
+			com.liferay.docs.guestbook.model.GuestbookEntry returnValue =
+				GuestbookEntryServiceUtil.deleteGuestbookEntry(surrogateId);
+
+			return com.liferay.docs.guestbook.model.GuestbookEntrySoap.
+				toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestbookEntrySoap
+			getGuestbookEntry(String surrogateId)
+		throws RemoteException {
+
+		try {
+			com.liferay.docs.guestbook.model.GuestbookEntry returnValue =
+				GuestbookEntryServiceUtil.getGuestbookEntry(surrogateId);
+
+			return com.liferay.docs.guestbook.model.GuestbookEntrySoap.
+				toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		GuestbookEntryServiceSoap.class);
 

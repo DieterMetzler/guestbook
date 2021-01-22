@@ -110,6 +110,21 @@ public interface GuestbookEntryModel
 	public void setEntryId(long entryId);
 
 	/**
+	 * Returns the surrogate ID of this guestbook entry.
+	 *
+	 * @return the surrogate ID of this guestbook entry
+	 */
+	@AutoEscape
+	public String getSurrogateId();
+
+	/**
+	 * Sets the surrogate ID of this guestbook entry.
+	 *
+	 * @param surrogateId the surrogate ID of this guestbook entry
+	 */
+	public void setSurrogateId(String surrogateId);
+
+	/**
 	 * Returns the name of this guestbook entry.
 	 *
 	 * @return the name of this guestbook entry

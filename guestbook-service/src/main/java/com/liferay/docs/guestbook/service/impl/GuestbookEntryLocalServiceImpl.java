@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.Validator;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -62,7 +63,7 @@ public class GuestbookEntryLocalServiceImpl
 	 */
 	
 	@Indexable(type = IndexableType.REINDEX)
-	public GuestbookEntry addGuestbookEntry(long userId, long guestbookId, String name,
+	public GuestbookEntry addGuestbookEntry(final String id, long userId, long guestbookId, String name,
 			String email, String message, ServiceContext serviceContext)
 		throws PortalException {
 
@@ -71,6 +72,14 @@ public class GuestbookEntryLocalServiceImpl
 		User user = userLocalService.getUserById(userId);
 
 		Date now = new Date();
+		
+		String useId = null;
+
+		if ((id == null) || (id.trim().length() < 1)) {
+			useId = RandomStringUtils.random(10, true, true).toUpperCase();
+		} else {
+			useId = id.trim().toUpperCase();
+		}
 
 		validate(name, email, message);
 
@@ -87,6 +96,7 @@ public class GuestbookEntryLocalServiceImpl
 		entry.setModifiedDate(serviceContext.getModifiedDate(now));
 		entry.setExpandoBridgeAttributes(serviceContext);
 		entry.setGuestbookId(guestbookId);
+		entry.setSurrogateId(useId);
 		entry.setName(name);
 		entry.setEmail(email);
 		entry.setMessage(message);
@@ -135,6 +145,16 @@ public class GuestbookEntryLocalServiceImpl
 	}
 	
 	@Indexable(type = IndexableType.DELETE)
+	@Override
+	public void deleteGuestbookEntry(final String surrogateId) throws PortalException {
+		GuestbookEntry guestbookentry = getGuestbookEntry(surrogateId);
+
+		if (guestbookentry != null) {
+			deleteGuestbookEntry(guestbookentry);
+		}
+	}
+	
+	@Indexable(type = IndexableType.DELETE)
 	public GuestbookEntry deleteGuestbookEntry(GuestbookEntry entry)
 			throws PortalException
 		{
@@ -148,7 +168,8 @@ public class GuestbookEntryLocalServiceImpl
 
 			return entry;
 		}
-
+	
+	@Indexable(type = IndexableType.DELETE)
 	public GuestbookEntry deleteGuestbookEntry(long entryId) throws PortalException {
 
 		GuestbookEntry entry =
@@ -175,8 +196,9 @@ public class GuestbookEntryLocalServiceImpl
 				end, obc);
 	}
 
-	public GuestbookEntry getGuestbookEntry(long entryId) throws PortalException {
-		return guestbookEntryPersistence.findByPrimaryKey(entryId);
+	public GuestbookEntry getGuestbookEntry(final String surrogateId) throws PortalException {
+		System.out.println("getGuestbookEntry - LocalService");
+		return guestbookEntryPersistence.fetchBySurrogateId(surrogateId);
 	}
 
 	public int getGuestbookEntriesCount(long groupId, long guestbookId) {

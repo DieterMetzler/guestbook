@@ -52,13 +52,13 @@ public class GuestbookEntryLocalServiceWrapper
 
 	@Override
 	public com.liferay.docs.guestbook.model.GuestbookEntry addGuestbookEntry(
-			long userId, long guestbookId, String name, String email,
+			String id, long userId, long guestbookId, String name, String email,
 			String message,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _guestbookEntryLocalService.addGuestbookEntry(
-			userId, guestbookId, name, email, message, serviceContext);
+			id, userId, guestbookId, name, email, message, serviceContext);
 	}
 
 	/**
@@ -110,6 +110,13 @@ public class GuestbookEntryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _guestbookEntryLocalService.deleteGuestbookEntry(entryId);
+	}
+
+	@Override
+	public void deleteGuestbookEntry(String surrogateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_guestbookEntryLocalService.deleteGuestbookEntry(surrogateId);
 	}
 
 	/**
@@ -367,6 +374,14 @@ public class GuestbookEntryLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _guestbookEntryLocalService.getGuestbookEntry(entryId);
+	}
+
+	@Override
+	public com.liferay.docs.guestbook.model.GuestbookEntry getGuestbookEntry(
+			String surrogateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _guestbookEntryLocalService.getGuestbookEntry(surrogateId);
 	}
 
 	/**

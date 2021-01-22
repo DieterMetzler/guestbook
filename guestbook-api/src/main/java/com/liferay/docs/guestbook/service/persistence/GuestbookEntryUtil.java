@@ -545,6 +545,66 @@ public class GuestbookEntryUtil {
 	}
 
 	/**
+	 * Returns the guestbook entry where surrogateId = &#63; or throws a <code>NoSuchGuestbookEntryException</code> if it could not be found.
+	 *
+	 * @param surrogateId the surrogate ID
+	 * @return the matching guestbook entry
+	 * @throws NoSuchGuestbookEntryException if a matching guestbook entry could not be found
+	 */
+	public static GuestbookEntry findBySurrogateId(String surrogateId)
+		throws com.liferay.docs.guestbook.exception.
+			NoSuchGuestbookEntryException {
+
+		return getPersistence().findBySurrogateId(surrogateId);
+	}
+
+	/**
+	 * Returns the guestbook entry where surrogateId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param surrogateId the surrogate ID
+	 * @return the matching guestbook entry, or <code>null</code> if a matching guestbook entry could not be found
+	 */
+	public static GuestbookEntry fetchBySurrogateId(String surrogateId) {
+		return getPersistence().fetchBySurrogateId(surrogateId);
+	}
+
+	/**
+	 * Returns the guestbook entry where surrogateId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param surrogateId the surrogate ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching guestbook entry, or <code>null</code> if a matching guestbook entry could not be found
+	 */
+	public static GuestbookEntry fetchBySurrogateId(
+		String surrogateId, boolean useFinderCache) {
+
+		return getPersistence().fetchBySurrogateId(surrogateId, useFinderCache);
+	}
+
+	/**
+	 * Removes the guestbook entry where surrogateId = &#63; from the database.
+	 *
+	 * @param surrogateId the surrogate ID
+	 * @return the guestbook entry that was removed
+	 */
+	public static GuestbookEntry removeBySurrogateId(String surrogateId)
+		throws com.liferay.docs.guestbook.exception.
+			NoSuchGuestbookEntryException {
+
+		return getPersistence().removeBySurrogateId(surrogateId);
+	}
+
+	/**
+	 * Returns the number of guestbook entries where surrogateId = &#63;.
+	 *
+	 * @param surrogateId the surrogate ID
+	 * @return the number of matching guestbook entries
+	 */
+	public static int countBySurrogateId(String surrogateId) {
+		return getPersistence().countBySurrogateId(surrogateId);
+	}
+
+	/**
 	 * Returns all the guestbook entries where groupId = &#63; and guestbookId = &#63;.
 	 *
 	 * @param groupId the group ID

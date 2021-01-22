@@ -120,6 +120,109 @@ public class GuestbookEntryServiceHttp {
 		}
 	}
 
+	public static com.liferay.docs.guestbook.model.GuestbookEntry
+		deleteGuestbookEntry(HttpPrincipal httpPrincipal, long entryId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				GuestbookEntryServiceUtil.class, "deleteGuestbookEntry",
+				_deleteGuestbookEntryParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, entryId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.docs.guestbook.model.GuestbookEntry)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestbookEntry
+		deleteGuestbookEntry(HttpPrincipal httpPrincipal, String surrogateId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				GuestbookEntryServiceUtil.class, "deleteGuestbookEntry",
+				_deleteGuestbookEntryParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, surrogateId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.docs.guestbook.model.GuestbookEntry)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestbookEntry
+			getGuestbookEntry(HttpPrincipal httpPrincipal, String surrogateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				GuestbookEntryServiceUtil.class, "getGuestbookEntry",
+				_getGuestbookEntryParameterTypes4);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, surrogateId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.docs.guestbook.model.GuestbookEntry)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		GuestbookEntryServiceHttp.class);
 
@@ -130,5 +233,11 @@ public class GuestbookEntryServiceHttp {
 		};
 	private static final Class<?>[] _deleteGuestbookEntryParameterTypes1 =
 		new Class[] {com.liferay.docs.guestbook.model.GuestbookEntry.class};
+	private static final Class<?>[] _deleteGuestbookEntryParameterTypes2 =
+		new Class[] {long.class};
+	private static final Class<?>[] _deleteGuestbookEntryParameterTypes3 =
+		new Class[] {String.class};
+	private static final Class<?>[] _getGuestbookEntryParameterTypes4 =
+		new Class[] {String.class};
 
 }

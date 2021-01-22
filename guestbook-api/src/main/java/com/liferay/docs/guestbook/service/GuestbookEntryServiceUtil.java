@@ -54,6 +54,25 @@ public class GuestbookEntryServiceUtil {
 		return getService().deleteGuestbookEntry(entry);
 	}
 
+	public static com.liferay.docs.guestbook.model.GuestbookEntry
+		deleteGuestbookEntry(long entryId) {
+
+		return getService().deleteGuestbookEntry(entryId);
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestbookEntry
+		deleteGuestbookEntry(String surrogateId) {
+
+		return getService().deleteGuestbookEntry(surrogateId);
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestbookEntry
+			getGuestbookEntry(String surrogateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getGuestbookEntry(surrogateId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

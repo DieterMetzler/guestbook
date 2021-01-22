@@ -34,6 +34,7 @@ public class GuestbookEntrySoap implements Serializable {
 		soapModel.setMvccVersion(model.getMvccVersion());
 		soapModel.setUuid(model.getUuid());
 		soapModel.setEntryId(model.getEntryId());
+		soapModel.setSurrogateId(model.getSurrogateId());
 		soapModel.setName(model.getName());
 		soapModel.setEmail(model.getEmail());
 		soapModel.setMessage(model.getMessage());
@@ -128,6 +129,14 @@ public class GuestbookEntrySoap implements Serializable {
 
 	public void setEntryId(long entryId) {
 		_entryId = entryId;
+	}
+
+	public String getSurrogateId() {
+		return _surrogateId;
+	}
+
+	public void setSurrogateId(String surrogateId) {
+		_surrogateId = surrogateId;
 	}
 
 	public String getName() {
@@ -245,6 +254,7 @@ public class GuestbookEntrySoap implements Serializable {
 	private long _mvccVersion;
 	private String _uuid;
 	private long _entryId;
+	private String _surrogateId;
 	private String _name;
 	private String _email;
 	private String _message;

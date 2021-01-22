@@ -46,6 +46,7 @@ public class GuestbookEntryWrapper
 		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("uuid", getUuid());
 		attributes.put("entryId", getEntryId());
+		attributes.put("surrogateId", getSurrogateId());
 		attributes.put("name", getName());
 		attributes.put("email", getEmail());
 		attributes.put("message", getMessage());
@@ -82,6 +83,12 @@ public class GuestbookEntryWrapper
 
 		if (entryId != null) {
 			setEntryId(entryId);
+		}
+
+		String surrogateId = (String)attributes.get("surrogateId");
+
+		if (surrogateId != null) {
+			setSurrogateId(surrogateId);
 		}
 
 		String name = (String)attributes.get("name");
@@ -327,6 +334,16 @@ public class GuestbookEntryWrapper
 	@Override
 	public Date getStatusDate() {
 		return model.getStatusDate();
+	}
+
+	/**
+	 * Returns the surrogate ID of this guestbook entry.
+	 *
+	 * @return the surrogate ID of this guestbook entry
+	 */
+	@Override
+	public String getSurrogateId() {
+		return model.getSurrogateId();
 	}
 
 	/**
@@ -612,6 +629,16 @@ public class GuestbookEntryWrapper
 	@Override
 	public void setStatusDate(Date statusDate) {
 		model.setStatusDate(statusDate);
+	}
+
+	/**
+	 * Sets the surrogate ID of this guestbook entry.
+	 *
+	 * @param surrogateId the surrogate ID of this guestbook entry
+	 */
+	@Override
+	public void setSurrogateId(String surrogateId) {
+		model.setSurrogateId(surrogateId);
 	}
 
 	/**

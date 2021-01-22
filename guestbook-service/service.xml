@@ -41,6 +41,7 @@
 		<!-- Guestbook Entry fields -->
 
 		<column name="entryId" primary="true" type="long" />
+		<column name="surrogateId" type="String" />
 		<column name="name" type="String" />
 		<column name="email" type="String" />
 		<column name="message" type="String" />
@@ -68,6 +69,10 @@
 		<order>
    			<order-column name="createDate" order-by="desc" />
 		</order>
+		
+		<finder name="SurrogateId" return-type="GuestbookEntry">
+			<finder-column name="surrogateId" />
+		</finder>
 		
 		<finder name="G_G" return-type="Collection">
         <finder-column name="groupId" />

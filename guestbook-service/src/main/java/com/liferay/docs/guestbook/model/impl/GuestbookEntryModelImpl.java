@@ -77,14 +77,14 @@ public class GuestbookEntryModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"mvccVersion", Types.BIGINT}, {"uuid_", Types.VARCHAR},
-		{"entryId", Types.BIGINT}, {"name", Types.VARCHAR},
-		{"email", Types.VARCHAR}, {"message", Types.VARCHAR},
-		{"guestbookId", Types.BIGINT}, {"groupId", Types.BIGINT},
-		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
-		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
-		{"modifiedDate", Types.TIMESTAMP}, {"status", Types.INTEGER},
-		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
-		{"statusDate", Types.TIMESTAMP}
+		{"entryId", Types.BIGINT}, {"surrogateId", Types.VARCHAR},
+		{"name", Types.VARCHAR}, {"email", Types.VARCHAR},
+		{"message", Types.VARCHAR}, {"guestbookId", Types.BIGINT},
+		{"groupId", Types.BIGINT}, {"companyId", Types.BIGINT},
+		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
+		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
+		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
+		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -94,6 +94,7 @@ public class GuestbookEntryModelImpl
 		TABLE_COLUMNS_MAP.put("mvccVersion", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("entryId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("surrogateId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("message", Types.VARCHAR);
@@ -111,7 +112,7 @@ public class GuestbookEntryModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table GB_GuestbookEntry (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,entryId LONG not null primary key,name VARCHAR(75) null,email VARCHAR(75) null,message VARCHAR(75) null,guestbookId LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+		"create table GB_GuestbookEntry (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,entryId LONG not null primary key,surrogateId VARCHAR(75) null,name VARCHAR(75) null,email VARCHAR(75) null,message VARCHAR(75) null,guestbookId LONG,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table GB_GuestbookEntry";
 
@@ -133,9 +134,11 @@ public class GuestbookEntryModelImpl
 
 	public static final long GUESTBOOKID_COLUMN_BITMASK = 4L;
 
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long SURROGATEID_COLUMN_BITMASK = 8L;
 
-	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -161,6 +164,7 @@ public class GuestbookEntryModelImpl
 		model.setMvccVersion(soapModel.getMvccVersion());
 		model.setUuid(soapModel.getUuid());
 		model.setEntryId(soapModel.getEntryId());
+		model.setSurrogateId(soapModel.getSurrogateId());
 		model.setName(soapModel.getName());
 		model.setEmail(soapModel.getEmail());
 		model.setMessage(soapModel.getMessage());
@@ -342,6 +346,11 @@ public class GuestbookEntryModelImpl
 		attributeSetterBiConsumers.put(
 			"entryId",
 			(BiConsumer<GuestbookEntry, Long>)GuestbookEntry::setEntryId);
+		attributeGetterFunctions.put(
+			"surrogateId", GuestbookEntry::getSurrogateId);
+		attributeSetterBiConsumers.put(
+			"surrogateId",
+			(BiConsumer<GuestbookEntry, String>)GuestbookEntry::setSurrogateId);
 		attributeGetterFunctions.put("name", GuestbookEntry::getName);
 		attributeSetterBiConsumers.put(
 			"name",
@@ -459,6 +468,32 @@ public class GuestbookEntryModelImpl
 	@Override
 	public void setEntryId(long entryId) {
 		_entryId = entryId;
+	}
+
+	@JSON
+	@Override
+	public String getSurrogateId() {
+		if (_surrogateId == null) {
+			return "";
+		}
+		else {
+			return _surrogateId;
+		}
+	}
+
+	@Override
+	public void setSurrogateId(String surrogateId) {
+		_columnBitmask |= SURROGATEID_COLUMN_BITMASK;
+
+		if (_originalSurrogateId == null) {
+			_originalSurrogateId = _surrogateId;
+		}
+
+		_surrogateId = surrogateId;
+	}
+
+	public String getOriginalSurrogateId() {
+		return GetterUtil.getString(_originalSurrogateId);
 	}
 
 	@JSON
@@ -839,6 +874,7 @@ public class GuestbookEntryModelImpl
 		guestbookEntryImpl.setMvccVersion(getMvccVersion());
 		guestbookEntryImpl.setUuid(getUuid());
 		guestbookEntryImpl.setEntryId(getEntryId());
+		guestbookEntryImpl.setSurrogateId(getSurrogateId());
 		guestbookEntryImpl.setName(getName());
 		guestbookEntryImpl.setEmail(getEmail());
 		guestbookEntryImpl.setMessage(getMessage());
@@ -916,6 +952,8 @@ public class GuestbookEntryModelImpl
 	public void resetOriginalValues() {
 		_originalUuid = _uuid;
 
+		_originalSurrogateId = _surrogateId;
+
 		_originalGuestbookId = _guestbookId;
 
 		_setOriginalGuestbookId = false;
@@ -949,6 +987,14 @@ public class GuestbookEntryModelImpl
 		}
 
 		guestbookEntryCacheModel.entryId = getEntryId();
+
+		guestbookEntryCacheModel.surrogateId = getSurrogateId();
+
+		String surrogateId = guestbookEntryCacheModel.surrogateId;
+
+		if ((surrogateId != null) && (surrogateId.length() == 0)) {
+			guestbookEntryCacheModel.surrogateId = null;
+		}
 
 		guestbookEntryCacheModel.name = getName();
 
@@ -1109,6 +1155,8 @@ public class GuestbookEntryModelImpl
 	private String _uuid;
 	private String _originalUuid;
 	private long _entryId;
+	private String _surrogateId;
+	private String _originalSurrogateId;
 	private String _name;
 	private String _email;
 	private String _message;

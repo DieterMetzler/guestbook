@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -54,6 +55,14 @@ public interface GuestbookEntryService extends BaseService {
 		String message, ServiceContext serviceContext);
 
 	public GuestbookEntry deleteGuestbookEntry(GuestbookEntry entry);
+
+	public GuestbookEntry deleteGuestbookEntry(long entryId);
+
+	public GuestbookEntry deleteGuestbookEntry(String surrogateId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public GuestbookEntry getGuestbookEntry(String surrogateId)
+		throws PortalException;
 
 	/**
 	 * Returns the OSGi service identifier.

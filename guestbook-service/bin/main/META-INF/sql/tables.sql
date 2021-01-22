@@ -19,6 +19,7 @@ create table GB_GuestbookEntry (
 	mvccVersion LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
 	entryId LONG not null primary key,
+	surrogateId VARCHAR(75) null,
 	name VARCHAR(75) null,
 	email VARCHAR(75) null,
 	message VARCHAR(75) null,

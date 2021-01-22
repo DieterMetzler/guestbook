@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
@@ -49,6 +50,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1476,6 +1478,255 @@ public class GuestbookEntryPersistenceImpl
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
 		"guestbookEntry.companyId = ?";
 
+	private FinderPath _finderPathFetchBySurrogateId;
+	private FinderPath _finderPathCountBySurrogateId;
+
+	/**
+	 * Returns the guestbook entry where surrogateId = &#63; or throws a <code>NoSuchGuestbookEntryException</code> if it could not be found.
+	 *
+	 * @param surrogateId the surrogate ID
+	 * @return the matching guestbook entry
+	 * @throws NoSuchGuestbookEntryException if a matching guestbook entry could not be found
+	 */
+	@Override
+	public GuestbookEntry findBySurrogateId(String surrogateId)
+		throws NoSuchGuestbookEntryException {
+
+		GuestbookEntry guestbookEntry = fetchBySurrogateId(surrogateId);
+
+		if (guestbookEntry == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("surrogateId=");
+			sb.append(surrogateId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchGuestbookEntryException(sb.toString());
+		}
+
+		return guestbookEntry;
+	}
+
+	/**
+	 * Returns the guestbook entry where surrogateId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param surrogateId the surrogate ID
+	 * @return the matching guestbook entry, or <code>null</code> if a matching guestbook entry could not be found
+	 */
+	@Override
+	public GuestbookEntry fetchBySurrogateId(String surrogateId) {
+		return fetchBySurrogateId(surrogateId, true);
+	}
+
+	/**
+	 * Returns the guestbook entry where surrogateId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param surrogateId the surrogate ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching guestbook entry, or <code>null</code> if a matching guestbook entry could not be found
+	 */
+	@Override
+	public GuestbookEntry fetchBySurrogateId(
+		String surrogateId, boolean useFinderCache) {
+
+		surrogateId = Objects.toString(surrogateId, "");
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {surrogateId};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchBySurrogateId, finderArgs, this);
+		}
+
+		if (result instanceof GuestbookEntry) {
+			GuestbookEntry guestbookEntry = (GuestbookEntry)result;
+
+			if (!Objects.equals(surrogateId, guestbookEntry.getSurrogateId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_GUESTBOOKENTRY_WHERE);
+
+			boolean bindSurrogateId = false;
+
+			if (surrogateId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_SURROGATEID_SURROGATEID_3);
+			}
+			else {
+				bindSurrogateId = true;
+
+				sb.append(_FINDER_COLUMN_SURROGATEID_SURROGATEID_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindSurrogateId) {
+					queryPos.add(surrogateId);
+				}
+
+				List<GuestbookEntry> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchBySurrogateId, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {surrogateId};
+							}
+
+							_log.warn(
+								"GuestbookEntryPersistenceImpl.fetchBySurrogateId(String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					GuestbookEntry guestbookEntry = list.get(0);
+
+					result = guestbookEntry;
+
+					cacheResult(guestbookEntry);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(
+						_finderPathFetchBySurrogateId, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (GuestbookEntry)result;
+		}
+	}
+
+	/**
+	 * Removes the guestbook entry where surrogateId = &#63; from the database.
+	 *
+	 * @param surrogateId the surrogate ID
+	 * @return the guestbook entry that was removed
+	 */
+	@Override
+	public GuestbookEntry removeBySurrogateId(String surrogateId)
+		throws NoSuchGuestbookEntryException {
+
+		GuestbookEntry guestbookEntry = findBySurrogateId(surrogateId);
+
+		return remove(guestbookEntry);
+	}
+
+	/**
+	 * Returns the number of guestbook entries where surrogateId = &#63;.
+	 *
+	 * @param surrogateId the surrogate ID
+	 * @return the number of matching guestbook entries
+	 */
+	@Override
+	public int countBySurrogateId(String surrogateId) {
+		surrogateId = Objects.toString(surrogateId, "");
+
+		FinderPath finderPath = _finderPathCountBySurrogateId;
+
+		Object[] finderArgs = new Object[] {surrogateId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_GUESTBOOKENTRY_WHERE);
+
+			boolean bindSurrogateId = false;
+
+			if (surrogateId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_SURROGATEID_SURROGATEID_3);
+			}
+			else {
+				bindSurrogateId = true;
+
+				sb.append(_FINDER_COLUMN_SURROGATEID_SURROGATEID_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindSurrogateId) {
+					queryPos.add(surrogateId);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SURROGATEID_SURROGATEID_2 =
+		"guestbookEntry.surrogateId = ?";
+
+	private static final String _FINDER_COLUMN_SURROGATEID_SURROGATEID_3 =
+		"(guestbookEntry.surrogateId IS NULL OR guestbookEntry.surrogateId = '')";
+
 	private FinderPath _finderPathWithPaginationFindByG_G;
 	private FinderPath _finderPathWithoutPaginationFindByG_G;
 	private FinderPath _finderPathCountByG_G;
@@ -2455,6 +2706,10 @@ public class GuestbookEntryPersistenceImpl
 			},
 			guestbookEntry);
 
+		finderCache.putResult(
+			_finderPathFetchBySurrogateId,
+			new Object[] {guestbookEntry.getSurrogateId()}, guestbookEntry);
+
 		guestbookEntry.resetOriginalValues();
 	}
 
@@ -2551,6 +2806,14 @@ public class GuestbookEntryPersistenceImpl
 			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args, guestbookEntryModelImpl, false);
+
+		args = new Object[] {guestbookEntryModelImpl.getSurrogateId()};
+
+		finderCache.putResult(
+			_finderPathCountBySurrogateId, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchBySurrogateId, args, guestbookEntryModelImpl,
+			false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -2576,6 +2839,26 @@ public class GuestbookEntryPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByUUID_G, args);
 			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+				guestbookEntryModelImpl.getSurrogateId()
+			};
+
+			finderCache.removeResult(_finderPathCountBySurrogateId, args);
+			finderCache.removeResult(_finderPathFetchBySurrogateId, args);
+		}
+
+		if ((guestbookEntryModelImpl.getColumnBitmask() &
+			 _finderPathFetchBySurrogateId.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				guestbookEntryModelImpl.getOriginalSurrogateId()
+			};
+
+			finderCache.removeResult(_finderPathCountBySurrogateId, args);
+			finderCache.removeResult(_finderPathFetchBySurrogateId, args);
 		}
 	}
 
@@ -3212,6 +3495,17 @@ public class GuestbookEntryPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathFetchBySurrogateId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, GuestbookEntryImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchBySurrogateId",
+			new String[] {String.class.getName()},
+			GuestbookEntryModelImpl.SURROGATEID_COLUMN_BITMASK);
+
+		_finderPathCountBySurrogateId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySurrogateId",
+			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByG_G = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, GuestbookEntryImpl.class,

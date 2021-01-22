@@ -57,13 +57,13 @@ public class GuestbookEntryLocalServiceUtil {
 
 	public static com.liferay.docs.guestbook.model.GuestbookEntry
 			addGuestbookEntry(
-				long userId, long guestbookId, String name, String email,
-				String message,
+				String id, long userId, long guestbookId, String name,
+				String email, String message,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addGuestbookEntry(
-			userId, guestbookId, name, email, message, serviceContext);
+			id, userId, guestbookId, name, email, message, serviceContext);
 	}
 
 	/**
@@ -113,6 +113,12 @@ public class GuestbookEntryLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteGuestbookEntry(entryId);
+	}
+
+	public static void deleteGuestbookEntry(String surrogateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		getService().deleteGuestbookEntry(surrogateId);
 	}
 
 	/**
@@ -350,6 +356,13 @@ public class GuestbookEntryLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getGuestbookEntry(entryId);
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestbookEntry
+			getGuestbookEntry(String surrogateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getGuestbookEntry(surrogateId);
 	}
 
 	/**

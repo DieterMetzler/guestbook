@@ -18,6 +18,7 @@ import com.liferay.docs.guestbook.model.GuestbookEntry;
 import com.liferay.docs.guestbook.service.base.GuestbookEntryServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import org.osgi.service.component.annotations.Component;
@@ -62,7 +63,24 @@ public class GuestbookEntryServiceImpl extends GuestbookEntryServiceBaseImpl {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public GuestbookEntry deleteGuestbookEntry(long entryId) {
 
+		return null;
+	}
+	
+	public GuestbookEntry deleteGuestbookEntry(String surrogateId) {
+	
+		return null;
+	
+	}
+	
+	public GuestbookEntry getGuestbookEntry(final String surrogateId) throws PortalException{
+		GuestbookEntry guestbookentry = guestbookEntryLocalService.getGuestbookEntry(surrogateId);
+		System.out.println("getGuestbookEntry");
+		return guestbookentry;
+	
+	}
 	
 	
 }

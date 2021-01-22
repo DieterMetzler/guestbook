@@ -77,7 +77,7 @@ public class GuestbookEntryCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -85,6 +85,8 @@ public class GuestbookEntryCacheModel
 		sb.append(uuid);
 		sb.append(", entryId=");
 		sb.append(entryId);
+		sb.append(", surrogateId=");
+		sb.append(surrogateId);
 		sb.append(", name=");
 		sb.append(name);
 		sb.append(", email=");
@@ -132,6 +134,13 @@ public class GuestbookEntryCacheModel
 		}
 
 		guestbookEntryImpl.setEntryId(entryId);
+
+		if (surrogateId == null) {
+			guestbookEntryImpl.setSurrogateId("");
+		}
+		else {
+			guestbookEntryImpl.setSurrogateId(surrogateId);
+		}
 
 		if (name == null) {
 			guestbookEntryImpl.setName("");
@@ -208,6 +217,7 @@ public class GuestbookEntryCacheModel
 		uuid = objectInput.readUTF();
 
 		entryId = objectInput.readLong();
+		surrogateId = objectInput.readUTF();
 		name = objectInput.readUTF();
 		email = objectInput.readUTF();
 		message = objectInput.readUTF();
@@ -242,6 +252,13 @@ public class GuestbookEntryCacheModel
 		}
 
 		objectOutput.writeLong(entryId);
+
+		if (surrogateId == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(surrogateId);
+		}
 
 		if (name == null) {
 			objectOutput.writeUTF("");
@@ -299,6 +316,7 @@ public class GuestbookEntryCacheModel
 	public long mvccVersion;
 	public String uuid;
 	public long entryId;
+	public String surrogateId;
 	public String name;
 	public String email;
 	public String message;

@@ -49,6 +49,28 @@ public class GuestbookEntryServiceWrapper
 		return _guestbookEntryService.deleteGuestbookEntry(entry);
 	}
 
+	@Override
+	public com.liferay.docs.guestbook.model.GuestbookEntry deleteGuestbookEntry(
+		long entryId) {
+
+		return _guestbookEntryService.deleteGuestbookEntry(entryId);
+	}
+
+	@Override
+	public com.liferay.docs.guestbook.model.GuestbookEntry deleteGuestbookEntry(
+		String surrogateId) {
+
+		return _guestbookEntryService.deleteGuestbookEntry(surrogateId);
+	}
+
+	@Override
+	public com.liferay.docs.guestbook.model.GuestbookEntry getGuestbookEntry(
+			String surrogateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _guestbookEntryService.getGuestbookEntry(surrogateId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

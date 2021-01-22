@@ -20,7 +20,7 @@ long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
 <aui:model-context bean="<%= entry %>" model="<%= GuestbookEntry.class %>" />
 
 	<aui:fieldset>
-
+	
 		<aui:input name="name" />
 		<aui:input name="email" />
 		<aui:input name="message" />
