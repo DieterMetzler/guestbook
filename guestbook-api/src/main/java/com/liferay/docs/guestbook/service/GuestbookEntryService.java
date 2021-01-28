@@ -72,4 +72,10 @@ public interface GuestbookEntryService extends BaseService {
 	 */
 	public String getOSGiServiceIdentifier();
 
+	public GuestbookEntry patchGuestbookEntry(
+			String oldId, String id, long userId, long guestbookId,
+			long groupId, String name, String email, String message,
+			ServiceContext serviceContext)
+		throws PortalException;
+
 }

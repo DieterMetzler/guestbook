@@ -84,6 +84,18 @@ public class GuestbookEntryServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static com.liferay.docs.guestbook.model.GuestbookEntry
+			patchGuestbookEntry(
+				String oldId, String id, long userId, long guestbookId,
+				long groupId, String name, String email, String message,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().patchGuestbookEntry(
+			oldId, id, userId, guestbookId, groupId, name, email, message,
+			serviceContext);
+	}
+
 	public static GuestbookEntryService getService() {
 		return _serviceTracker.getService();
 	}
