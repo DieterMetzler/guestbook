@@ -52,11 +52,17 @@ public class GuestbookEntryServiceImpl extends GuestbookEntryServiceBaseImpl {
 	 */
 
 	@Override
-	public GuestbookEntry addGuestbookEntry(long userId, long guestbookId, String name, String email, String message,
-			ServiceContext serviceContext) {
+	public GuestbookEntry addGuestbookEntry(final String id, final long userId,
+			final long guestbookId, final long groupId, final String name, final String email,
+			final String message, final ServiceContext serviceContext) throws PortalException {
+		
 		// TODO Auto-generated method stub
-		return null;
+		System.out.println("addGuestbookEntry in GuestbookEntryServiceImpl");
+		
+		return guestbookEntryLocalService.addGuestbookEntry(id, userId, guestbookId,
+				groupId, name, email, message, serviceContext);
 	}
+	
 	
 	public GuestbookEntry deleteGuestbookEntry(GuestbookEntry entry)
 	{
@@ -69,11 +75,14 @@ public class GuestbookEntryServiceImpl extends GuestbookEntryServiceBaseImpl {
 		return null;
 	}
 	
-	public GuestbookEntry deleteGuestbookEntry(String surrogateId) {
+	public void deleteGuestbookEntry(final String surrogateId) throws PortalException {
+		
+		guestbookEntryLocalService.deleteGuestbookEntry(surrogateId);
 	
-		return null;
 	
 	}
+	
+	
 	
 	public GuestbookEntry getGuestbookEntry(final String surrogateId) throws PortalException{
 		GuestbookEntry guestbookentry = guestbookEntryLocalService.getGuestbookEntry(surrogateId);

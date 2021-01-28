@@ -63,15 +63,16 @@ public class GuestbookEntryServiceSoap {
 
 	public static com.liferay.docs.guestbook.model.GuestbookEntrySoap
 			addGuestbookEntry(
-				long userId, long guestbookId, String name, String email,
-				String message,
+				String id, long userId, long guestbookId, long groupId,
+				String name, String email, String message,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws RemoteException {
 
 		try {
 			com.liferay.docs.guestbook.model.GuestbookEntry returnValue =
 				GuestbookEntryServiceUtil.addGuestbookEntry(
-					userId, guestbookId, name, email, message, serviceContext);
+					id, userId, guestbookId, groupId, name, email, message,
+					serviceContext);
 
 			return com.liferay.docs.guestbook.model.GuestbookEntrySoap.
 				toSoapModel(returnValue);
@@ -122,16 +123,11 @@ public class GuestbookEntryServiceSoap {
 		}
 	}
 
-	public static com.liferay.docs.guestbook.model.GuestbookEntrySoap
-			deleteGuestbookEntry(String surrogateId)
+	public static void deleteGuestbookEntry(String surrogateId)
 		throws RemoteException {
 
 		try {
-			com.liferay.docs.guestbook.model.GuestbookEntry returnValue =
-				GuestbookEntryServiceUtil.deleteGuestbookEntry(surrogateId);
-
-			return com.liferay.docs.guestbook.model.GuestbookEntrySoap.
-				toSoapModel(returnValue);
+			GuestbookEntryServiceUtil.deleteGuestbookEntry(surrogateId);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);

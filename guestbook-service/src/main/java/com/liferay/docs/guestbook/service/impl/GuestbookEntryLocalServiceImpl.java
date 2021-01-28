@@ -63,11 +63,13 @@ public class GuestbookEntryLocalServiceImpl
 	 */
 	
 	@Indexable(type = IndexableType.REINDEX)
-	public GuestbookEntry addGuestbookEntry(final String id, long userId, long guestbookId, String name,
-			String email, String message, ServiceContext serviceContext)
+	public GuestbookEntry addGuestbookEntry(final String id, long userId, long guestbookId,
+			long groupId, String name, String email, String message, ServiceContext serviceContext)
 		throws PortalException {
 
-		long groupId = serviceContext.getScopeGroupId();
+		if (groupId == 0) { 
+			groupId = serviceContext.getScopeGroupId();
+		}
 
 		User user = userLocalService.getUserById(userId);
 

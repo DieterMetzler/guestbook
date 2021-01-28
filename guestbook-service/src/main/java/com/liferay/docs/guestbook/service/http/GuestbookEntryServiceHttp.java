@@ -52,10 +52,12 @@ import com.liferay.portal.kernel.util.MethodKey;
 public class GuestbookEntryServiceHttp {
 
 	public static com.liferay.docs.guestbook.model.GuestbookEntry
-		addGuestbookEntry(
-			HttpPrincipal httpPrincipal, long userId, long guestbookId,
-			String name, String email, String message,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext) {
+			addGuestbookEntry(
+				HttpPrincipal httpPrincipal, String id, long userId,
+				long guestbookId, long groupId, String name, String email,
+				String message,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -63,8 +65,8 @@ public class GuestbookEntryServiceHttp {
 				_addGuestbookEntryParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, userId, guestbookId, name, email, message,
-				serviceContext);
+				methodKey, id, userId, guestbookId, groupId, name, email,
+				message, serviceContext);
 
 			Object returnObj = null;
 
@@ -72,6 +74,13 @@ public class GuestbookEntryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
@@ -151,8 +160,9 @@ public class GuestbookEntryServiceHttp {
 		}
 	}
 
-	public static com.liferay.docs.guestbook.model.GuestbookEntry
-		deleteGuestbookEntry(HttpPrincipal httpPrincipal, String surrogateId) {
+	public static void deleteGuestbookEntry(
+			HttpPrincipal httpPrincipal, String surrogateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -162,17 +172,20 @@ public class GuestbookEntryServiceHttp {
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, surrogateId);
 
-			Object returnObj = null;
-
 			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
-
-			return (com.liferay.docs.guestbook.model.GuestbookEntry)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {
@@ -228,7 +241,8 @@ public class GuestbookEntryServiceHttp {
 
 	private static final Class<?>[] _addGuestbookEntryParameterTypes0 =
 		new Class[] {
-			long.class, long.class, String.class, String.class, String.class,
+			String.class, long.class, long.class, long.class, String.class,
+			String.class, String.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 	private static final Class<?>[] _deleteGuestbookEntryParameterTypes1 =

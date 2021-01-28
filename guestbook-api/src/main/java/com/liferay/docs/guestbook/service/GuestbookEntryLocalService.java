@@ -79,8 +79,8 @@ public interface GuestbookEntryLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	public GuestbookEntry addGuestbookEntry(
-			String id, long userId, long guestbookId, String name, String email,
-			String message, ServiceContext serviceContext)
+			String id, long userId, long guestbookId, long groupId, String name,
+			String email, String message, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**

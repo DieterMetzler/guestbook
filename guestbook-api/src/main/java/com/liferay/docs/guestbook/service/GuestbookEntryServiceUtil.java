@@ -38,13 +38,15 @@ public class GuestbookEntryServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.docs.guestbook.service.impl.GuestbookEntryServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static com.liferay.docs.guestbook.model.GuestbookEntry
-		addGuestbookEntry(
-			long userId, long guestbookId, String name, String email,
-			String message,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext) {
+			addGuestbookEntry(
+				String id, long userId, long guestbookId, long groupId,
+				String name, String email, String message,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addGuestbookEntry(
-			userId, guestbookId, name, email, message, serviceContext);
+			id, userId, guestbookId, groupId, name, email, message,
+			serviceContext);
 	}
 
 	public static com.liferay.docs.guestbook.model.GuestbookEntry
@@ -60,10 +62,10 @@ public class GuestbookEntryServiceUtil {
 		return getService().deleteGuestbookEntry(entryId);
 	}
 
-	public static com.liferay.docs.guestbook.model.GuestbookEntry
-		deleteGuestbookEntry(String surrogateId) {
+	public static void deleteGuestbookEntry(String surrogateId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().deleteGuestbookEntry(surrogateId);
+		getService().deleteGuestbookEntry(surrogateId);
 	}
 
 	public static com.liferay.docs.guestbook.model.GuestbookEntry

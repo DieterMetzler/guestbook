@@ -57,13 +57,14 @@ public class GuestbookEntryLocalServiceUtil {
 
 	public static com.liferay.docs.guestbook.model.GuestbookEntry
 			addGuestbookEntry(
-				String id, long userId, long guestbookId, String name,
-				String email, String message,
+				String id, long userId, long guestbookId, long groupId,
+				String name, String email, String message,
 				com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().addGuestbookEntry(
-			id, userId, guestbookId, name, email, message, serviceContext);
+			id, userId, guestbookId, groupId, name, email, message,
+			serviceContext);
 	}
 
 	/**

@@ -60,6 +60,7 @@ public class GuestbookPortlet extends MVCPortlet {
 			String userName = ParamUtil.getString(request, "name");
 			String email = ParamUtil.getString(request, "email");
 			String message = ParamUtil.getString(request, "message");
+			long groupId = 0;
 			long guestbookId = ParamUtil.getLong(request, "guestbookId");
 			long entryId = ParamUtil.getLong(request, "entryId");
 			
@@ -87,7 +88,7 @@ public class GuestbookPortlet extends MVCPortlet {
 			
 			try {
 				_guestbookEntryLocalService.addGuestbookEntry(
-						id, serviceContext.getUserId(), guestbookId, userName, email,
+						id, serviceContext.getUserId(), guestbookId, groupId, userName, email,
 						message, serviceContext);
 				
 				response.setRenderParameter(

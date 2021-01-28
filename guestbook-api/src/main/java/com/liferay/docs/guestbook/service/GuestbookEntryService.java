@@ -51,14 +51,15 @@ public interface GuestbookEntryService extends BaseService {
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.docs.guestbook.service.impl.GuestbookEntryServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the guestbook entry remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link GuestbookEntryServiceUtil} if injection and service tracking are not available.
 	 */
 	public GuestbookEntry addGuestbookEntry(
-		long userId, long guestbookId, String name, String email,
-		String message, ServiceContext serviceContext);
+			String id, long userId, long guestbookId, long groupId, String name,
+			String email, String message, ServiceContext serviceContext)
+		throws PortalException;
 
 	public GuestbookEntry deleteGuestbookEntry(GuestbookEntry entry);
 
 	public GuestbookEntry deleteGuestbookEntry(long entryId);
 
-	public GuestbookEntry deleteGuestbookEntry(String surrogateId);
+	public void deleteGuestbookEntry(String surrogateId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public GuestbookEntry getGuestbookEntry(String surrogateId)
