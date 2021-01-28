@@ -85,6 +85,29 @@ public class GuestbookEntryServiceSoap {
 	}
 
 	public static com.liferay.docs.guestbook.model.GuestbookEntrySoap
+			patchGuestbookEntry(
+				String oldId, String id, long userId, long guestbookId,
+				long groupId, String name, String email, String message,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.liferay.docs.guestbook.model.GuestbookEntry returnValue =
+				GuestbookEntryServiceUtil.patchGuestbookEntry(
+					oldId, id, userId, guestbookId, groupId, name, email,
+					message, serviceContext);
+
+			return com.liferay.docs.guestbook.model.GuestbookEntrySoap.
+				toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestbookEntrySoap
 			deleteGuestbookEntry(
 				com.liferay.docs.guestbook.model.GuestbookEntrySoap entry)
 		throws RemoteException {

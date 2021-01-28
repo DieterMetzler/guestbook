@@ -97,6 +97,51 @@ public class GuestbookEntryServiceHttp {
 	}
 
 	public static com.liferay.docs.guestbook.model.GuestbookEntry
+			patchGuestbookEntry(
+				HttpPrincipal httpPrincipal, String oldId, String id,
+				long userId, long guestbookId, long groupId, String name,
+				String email, String message,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				GuestbookEntryServiceUtil.class, "patchGuestbookEntry",
+				_patchGuestbookEntryParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, oldId, id, userId, guestbookId, groupId, name, email,
+				message, serviceContext);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.docs.guestbook.model.GuestbookEntry)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestbookEntry
 		deleteGuestbookEntry(
 			HttpPrincipal httpPrincipal,
 			com.liferay.docs.guestbook.model.GuestbookEntry entry) {
@@ -104,7 +149,7 @@ public class GuestbookEntryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				GuestbookEntryServiceUtil.class, "deleteGuestbookEntry",
-				_deleteGuestbookEntryParameterTypes1);
+				_deleteGuestbookEntryParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, entry);
 
@@ -135,7 +180,7 @@ public class GuestbookEntryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				GuestbookEntryServiceUtil.class, "deleteGuestbookEntry",
-				_deleteGuestbookEntryParameterTypes2);
+				_deleteGuestbookEntryParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, entryId);
 
@@ -167,7 +212,7 @@ public class GuestbookEntryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				GuestbookEntryServiceUtil.class, "deleteGuestbookEntry",
-				_deleteGuestbookEntryParameterTypes3);
+				_deleteGuestbookEntryParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, surrogateId);
@@ -203,7 +248,7 @@ public class GuestbookEntryServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				GuestbookEntryServiceUtil.class, "getGuestbookEntry",
-				_getGuestbookEntryParameterTypes4);
+				_getGuestbookEntryParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, surrogateId);
@@ -245,13 +290,19 @@ public class GuestbookEntryServiceHttp {
 			String.class, String.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
-	private static final Class<?>[] _deleteGuestbookEntryParameterTypes1 =
-		new Class[] {com.liferay.docs.guestbook.model.GuestbookEntry.class};
+	private static final Class<?>[] _patchGuestbookEntryParameterTypes1 =
+		new Class[] {
+			String.class, String.class, long.class, long.class, long.class,
+			String.class, String.class, String.class,
+			com.liferay.portal.kernel.service.ServiceContext.class
+		};
 	private static final Class<?>[] _deleteGuestbookEntryParameterTypes2 =
-		new Class[] {long.class};
+		new Class[] {com.liferay.docs.guestbook.model.GuestbookEntry.class};
 	private static final Class<?>[] _deleteGuestbookEntryParameterTypes3 =
+		new Class[] {long.class};
+	private static final Class<?>[] _deleteGuestbookEntryParameterTypes4 =
 		new Class[] {String.class};
-	private static final Class<?>[] _getGuestbookEntryParameterTypes4 =
+	private static final Class<?>[] _getGuestbookEntryParameterTypes5 =
 		new Class[] {String.class};
 
 }

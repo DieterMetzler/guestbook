@@ -63,6 +63,18 @@ public class GuestbookEntryServiceImpl extends GuestbookEntryServiceBaseImpl {
 				groupId, name, email, message, serviceContext);
 	}
 	
+	public GuestbookEntry patchGuestbookEntry(final String oldId, final String id,
+			final long userId, final long guestbookId, final long groupId,
+			final String name, final String email, final String message,
+			final ServiceContext serviceContext) throws PortalException {
+
+
+
+		return guestbookEntryLocalService.patchGuestbookEntry(oldId, id, userId,
+				guestbookId, groupId, name, email, message, serviceContext);
+	}
+	
+	
 	
 	public GuestbookEntry deleteGuestbookEntry(GuestbookEntry entry)
 	{

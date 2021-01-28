@@ -430,6 +430,18 @@ public class GuestbookEntryLocalServiceWrapper
 		return _guestbookEntryLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public com.liferay.docs.guestbook.model.GuestbookEntry patchGuestbookEntry(
+			String oldId, String id, long userId, long guestbookId,
+			long groupId, String name, String email, String message,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _guestbookEntryLocalService.patchGuestbookEntry(
+			oldId, id, userId, guestbookId, groupId, name, email, message,
+			serviceContext);
+	}
+
 	/**
 	 * Updates the guestbook entry in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
